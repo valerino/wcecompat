@@ -601,7 +601,7 @@ struct tm* gmtime(const time_t* clock)
 	st_tm.tm_min = stUtc.wMinute;
 	st_tm.tm_hour = stUtc.wHour;
 	st_tm.tm_mday = stUtc.wDay;
-	st_tm.tm_mon = stUtc.wMonth;
+	st_tm.tm_mon = stUtc.wMonth - 1;
 	st_tm.tm_year = stUtc.wYear;
 	st_tm.tm_wday = stUtc.wDayOfWeek;
 	st_tm.tm_yday = dayOfYear(stUtc.wYear, stUtc.wMonth-1, stUtc.wDay);
