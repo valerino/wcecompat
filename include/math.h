@@ -88,7 +88,7 @@ double    __cdecl _yn(int, double);
 #define tanl(x)     ((long double)tan((double)(x)))
 #define tanhl(x)    ((long double)tanh((double)(x)))
 
-inline long lround(double d) { return (long)(d>0 ? d+0.5 : ceil(d-0.5)); }
+__inline long lround(double d) { return (long)(d>0 ? d+0.5 : ceil(d-0.5)); }
 #ifdef __cplusplus
 }
 #endif
