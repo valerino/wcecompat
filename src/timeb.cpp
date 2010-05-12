@@ -35,7 +35,6 @@ SYSTEMTIME wce_tm2SYSTEMTIME(struct tm *t)
 	s.wHour      = t->tm_hour;
 	s.wMinute    = t->tm_min;
 	s.wSecond    = t->tm_sec;
-	s.wMilliseconds = 500;
 
 	return s;
 }
@@ -58,7 +57,6 @@ FILETIME wce_getFILETIMEFromYear(WORD year)
 	s.wMonth     = 1;
 	s.wDayOfWeek = 1;
 	s.wDay       = 1;
-	s.wMilliseconds = 500;
 
 	SystemTimeToFileTime( &s, &f );
 	return f;
@@ -128,7 +126,6 @@ int ftime(struct timeb *tp)
 
 	GetLocalTime(&s);
 	SystemTimeToFileTime( &s, &f );
-	s.wMilliseconds = 500;/// no milliseconds, someone could complain
 	tp->dstflag  = 0;
 	tp->timezone = _timezone/60;
 	tp->time     = wce_FILETIME2time_t(&f);

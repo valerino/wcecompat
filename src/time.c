@@ -464,7 +464,6 @@ time_t time(time_t* t)
 
 	// get system time
 	GetSystemTime(&stNow);
-	stNow.wMilliseconds = 500;
 	if (!SystemTimeToFileTime(&stNow, &ftNow))
 	{
 		errno = -1;
@@ -555,7 +554,6 @@ struct tm* localtime(const time_t* clock)
 	// convert to SYSTEMTIME
 	if (!FileTimeToSystemTime(&ftLocal, &stLocal))
 		return NULL;
-	stLocal.wMilliseconds = 500;
 	
 	// determine if we're operating in daylight savings time
 	tziResult = GetTimeZoneInformation(&tzi);
@@ -595,7 +593,6 @@ struct tm* gmtime(const time_t* clock)
 	if (!FileTimeToSystemTime(&ftUtc, &stUtc))
 		return NULL;
 
-	stUtc.wMilliseconds = 500;
 	// fill return structure
 	st_tm.tm_sec = stUtc.wSecond;
 	st_tm.tm_min = stUtc.wMinute;
@@ -833,7 +830,6 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
 	if (NULL != tv)
 	{
 		GetLocalTime(&ls); /// or GetSystemTime should be used here ?!
-		ls.wMilliseconds = 500;
 		SystemTimeToFileTime( &ls, &ft );
 
 		tmpres |= ft.dwHighDateTime;

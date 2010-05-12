@@ -31,7 +31,7 @@ extern "C" {
 int __cdecl _wceaccess(const char *pathname, int mode);
 int __cdecl _wceunlink(const char *pathname);
 int __cdecl _wcerename(const char *oldname, const char *newname);
-int _wceopen(const char *file, int mode, int pmode);
+int _wceopen(const char *file, int mode, ...);
 int _wceread(int fd, void *buffer, int length);
 int _wcewrite(int fd, const void *buffer, unsigned count);
 long _wcelseek(int handle, long offset, int origin);

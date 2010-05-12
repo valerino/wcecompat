@@ -23,6 +23,7 @@
 #define __wcecompat__STRING_H__
 
 #include "stddef.h"
+#include <stdarg.h>
 #include "memory.h"
 
 #ifdef __cplusplus
@@ -30,6 +31,7 @@ extern "C" {
 #endif
 
 char *  __cdecl strerror(int errnum);
+int vasprintf (char **strp, const char *fmt, va_list ap);
 
 // Widechar string functions
 _CRTIMP wchar_t * __cdecl wcscat(wchar_t *, const wchar_t *);

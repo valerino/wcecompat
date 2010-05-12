@@ -92,14 +92,18 @@ int _wceunlink(const char* path)
 	return _wceremove(path);
 }
 
-int _wceopen(const char *file, int mode, int pmode)
+int _wceopen(const char *file, int mode, ...)
 {
-	/// TODO : since this function do not support parameters checking (i.e. would be regular to specifi O_CREATE and O_APPEND together), 
+	/// TODO : since this function do not support parameters checking (i.e. would be regular to specify O_CREATE and O_APPEND together), 
 	/// use with caution referring to documentation 
 	WCHAR wfile [MAX_PATH] = {0};
 	DWORD access=GENERIC_READ, share=FILE_SHARE_READ|FILE_SHARE_WRITE, create=OPEN_EXISTING, attr=FILE_ATTRIBUTE_NORMAL;
 	DWORD err = 0;
 	HANDLE h;
+	
+	/* arguments after mode are ignored, plus we purge mode from binary/text flags which are useless with createfile */
+	mode &= ~O_BINARY;
+	mode &= ~O_TEXT;
 
 	if( (mode & O_RDWR) || (mode & O_APPEND))
 	{

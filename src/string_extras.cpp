@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <ctype.h>
 
 char* messages[] = {
@@ -71,6 +72,47 @@ char* messages[] = {
 };
 const int NUM_MESSAGES = sizeof(messages)/sizeof(messages[0]);
 
+int vasprintf (char **strp, const char *fmt, va_list ap)
+{
+     /* HACK: vsnprintf in the WinCE API behaves like
+      * the one in glibc 2.0 and doesn't return the number of characters
+      * it needed to copy the string.
+      * cf http://msdn.microsoft.com/en-us/library/1kt27hek.aspx
+      * and cf the man page of vsnprintf
+      *
+      Guess we need no more than 50 bytes. */
+     int n, size = 50;
+     char *res, *np;
+ 
+     if ((res = (char *) malloc (size)) == NULL)
+         return -1;
+ 
+     while (1)
+     {
+         n = _vsnprintf (res, size, fmt, ap);
+ 
+         /* If that worked, return the string. */
+         if (n > -1 && n < size)
+         {
+             *strp = res;
+             return n;
+         }
+ 
+         /* Else try again with more space. */
+         size *= 2;  /* twice the old size */
+ 
+         if ((np = (char *) realloc (res, size)) == NULL)
+         {
+             free(res);
+             return -1;
+         }
+         else
+         {
+             res = np;
+         }
+ 
+     }
+}
 
 char* strerror(int errnum)
 {
