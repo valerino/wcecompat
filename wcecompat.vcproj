@@ -514,6 +514,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\dirent.c"
+				>
+			</File>
+			<File
 				RelativePath=".\src\env.cpp"
 				>
 			</File>
@@ -708,11 +712,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\time.h"
+				RelativePath=".\include\sys\time.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\sys\time.h"
+				RelativePath=".\include\time.h"
 				>
 			</File>
 			<File

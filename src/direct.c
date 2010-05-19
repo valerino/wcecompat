@@ -4,6 +4,13 @@
 #include <winsock2.h>
 
 char cwd[MAX_PATH+1] = "";
+
+int _chdir (char* path)
+{
+  strncpy(cwd, path, MAX_PATH);
+  return 0;
+}
+
 char *_getcwd(char *buffer, int maxlen)
 {
 	TCHAR fileUnc[MAX_PATH+1];

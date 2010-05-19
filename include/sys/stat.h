@@ -40,6 +40,12 @@ extern "C" {
 #define _S_IWRITE       0000200         /* write permission, owner */
 #define _S_IEXEC        0000100         /* execute/search permission, owner */
 
+#define	_IFMT	_S_IFMT
+#define	_IFDIR	_S_IFDIR
+#define	_IFCHR  _S_IFCHR
+#define	_IFREG	_S_IFREG
+#define	_IFIFO  _S_IFIFO
+
 #define S_IFMT			_S_IFMT
 #define S_IFDIR			_S_IFDIR
 #define S_IFCHR			_S_IFCHR
@@ -49,6 +55,8 @@ extern "C" {
 #define S_IWRITE		_S_IWRITE
 #define S_IEXEC			_S_IEXEC
 
+#define	S_ISDIR(m)	(((m)&_IFMT) == _IFDIR)
+#define	S_ISREG(m)	(((m)&_IFMT) == _IFREG)
 
 #ifndef _DEV_T_DEFINED
 typedef unsigned int _dev_t;

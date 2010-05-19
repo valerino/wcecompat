@@ -817,7 +817,7 @@ time_t mktime(struct tm* pt)
 	return wce_FILETIME2time_t(&f) - (time_t)diff;
 }
 
-void _tzset ()
+void _tzset()
 {
 
 }

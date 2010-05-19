@@ -104,6 +104,9 @@ _CRTIMP char * __cdecl strdup(const char * _Src);
 #define strcasecmp _stricmp
 #endif
 
+size_t strlcat(char *dst, const char *src, size_t siz);
+size_t strlcpy(char *dst, const char *src, size_t siz);
+
 #ifdef __cplusplus
 }
 #endif

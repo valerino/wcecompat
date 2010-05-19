@@ -37,6 +37,7 @@ int _wcewrite(int fd, const void *buffer, unsigned count);
 long _wcelseek(int handle, long offset, int origin);
 int _wceclose (int fd);
 FILE* _wcefdopen( int handle, const char *mode );
+#define F_OK 0
 
 #define access _wceaccess
 #define open _wceopen

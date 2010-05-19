@@ -68,9 +68,9 @@ struct tm * __cdecl gmtime(const time_t *clock);
 size_t strftime(char *s, size_t maxs, const char *f, const struct tm *t);
 time_t mktime(struct tm* pt);
 
-void _tzset ();
+void _tzset();
 
-#define tzset _tzset;
+#define tzset _tzset
 #define timegm mktime
 
 #ifdef __cplusplus

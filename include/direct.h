@@ -5,6 +5,9 @@
 extern "C" {
 #endif
 
+int _chdir (char* path);
+#define chdir _chdir
+
 char *_getcwd(char *buffer, int maxlen);
 #define getcwd _getcwd
 

@@ -20,8 +20,29 @@
 
 
 #include <stdio.h>
+#include <winsock2.h>
 #include <errno.h>
 #include <ceconfig.h>
+
+FILE *tmpfile( void )
+{
+  WCHAR path [MAX_PATH];
+  WCHAR wtmpfile [MAX_PATH];
+  char atmpfile [MAX_PATH];
+  FILE* f;
+
+  GetTempPath(MAX_PATH,path);
+  if (GetTempFileNameW(path,L"tmp",0,wtmpfile) == 0)
+    return NULL;
+  wcstombs(atmpfile,wtmpfile,MAX_PATH);
+  f = fopen (atmpfile,"w+b");
+  return f;
+}
+
+void rewind (FILE* file)
+{
+  fseek (file,0,SEEK_SET);
+}
 
 void perror(const char *prefix)
 {

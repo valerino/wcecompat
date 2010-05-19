@@ -154,6 +154,9 @@ _CRTIMP int __cdecl fwscanf(FILE *, const wchar_t *, ...);
 _CRTIMP int __cdecl fwprintf(FILE *, const wchar_t *, ...);
 _CRTIMP int __cdecl vfwprintf(FILE *, const wchar_t *, va_list);
 
+FILE *tmpfile( void );
+void rewind (FILE* file);
+
 #define BUFSIZ (512)
 
 void perror(const char *prefix);

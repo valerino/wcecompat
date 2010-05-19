@@ -24,6 +24,7 @@ SRC =							\
 	src/winsock_extras.cpp	\
 	src/utime.cpp	\
 	src/direct.c	\
+	src/dirent.c  \
 	src/conio.c	\
 
 !IF "$(WCEVERSION)"=="211"
