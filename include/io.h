@@ -34,9 +34,11 @@ int __cdecl _wcerename(const char *oldname, const char *newname);
 int _wceopen(const char *file, int mode, ...);
 int _wceread(int fd, void *buffer, int length);
 int _wcewrite(int fd, const void *buffer, unsigned count);
-long _wcelseek(int handle, long offset, int origin);
+long _wcelseek(int fd, long offset, int origin);
 int _wceclose (int fd);
-FILE* _wcefdopen( int handle, const char *mode );
+FILE* _wcefdopen( int fd, const char *mode );
+int wcefileno (FILE* file);
+
 #define F_OK 0
 
 #define access _wceaccess
@@ -48,9 +50,7 @@ FILE* _wcefdopen( int handle, const char *mode );
 #define lseek _wcelseek
 #define _lseek _wcelseek
 #define unlink _wceunlink
-#ifdef rename
-#undef rename
-#endif
+#define fileno wcefileno
 #define rename _wcerename
 #define _rename _wcerename
 #define fdopen _wcefdopen

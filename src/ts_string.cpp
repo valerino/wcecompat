@@ -105,7 +105,7 @@ void unicode2ascii(const WCHAR* unicode, char* ascii, int maxChars)
 // ascii/unicode typesafe versions of strcat
 //
 
-char* ts_strcat(char* dest, const unsigned short* src)
+char* ts_strcat(char* dest, const wchar_t* src)
 {
 	char* p = dest;
 	while (*p != '\0')
@@ -114,9 +114,9 @@ char* ts_strcat(char* dest, const unsigned short* src)
 	return dest;
 }
 
-unsigned short* ts_strcat(unsigned short* dest, const char* src)
+wchar_t* ts_strcat(wchar_t* dest, const char* src)
 {
-	unsigned short* p = dest;
+	wchar_t* p = dest;
 	while (*p != '\0')
 		p++;
 	ascii2unicode(src, p);
@@ -128,7 +128,7 @@ unsigned short* ts_strcat(unsigned short* dest, const char* src)
 // ascii/unicode typesafe versions of strdup
 //
 
-char* ts_strdup_unicode_to_ascii(const unsigned short* str)
+char* ts_strdup_unicode_to_ascii(const wchar_t* str)
 {
 	char* result = (char*)malloc(wcslen(str)+1);
 	if (result == NULL)
@@ -137,9 +137,9 @@ char* ts_strdup_unicode_to_ascii(const unsigned short* str)
 	return result;
 }
 
-unsigned short* ts_strdup_ascii_to_unicode(const char* str)
+wchar_t* ts_strdup_ascii_to_unicode(const char* str)
 {
-	unsigned short* result = (unsigned short*)malloc((strlen(str)+1)*2);
+	wchar_t* result = (wchar_t*)malloc((strlen(str)+1)*2);
 	if (result == NULL)
 		return NULL;
 	ascii2unicode(str, result);

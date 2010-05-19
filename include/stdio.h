@@ -126,7 +126,6 @@ _CRTIMP FILE*  __cdecl _wfdopen(void*, const wchar_t*);
 _CRTIMP FILE*  __cdecl _wfreopen(const wchar_t *path, const wchar_t *mode, FILE *stream);
 // old names
 #define fcloseall _fcloseall
-#define fileno    _fileno
 #define flushall  _flushall
 
 // WIDE Stdin/Out functions & macros

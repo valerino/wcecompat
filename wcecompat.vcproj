@@ -178,7 +178,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Windows Mobile 6 Professional SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)lib"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
@@ -202,6 +202,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="7"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(WCECOMPAT)/src;$(WCECOMPAT)/include"
 				PreprocessorDefinitions="_DEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;DEBUG;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
@@ -434,6 +435,7 @@
 				ExecutionBucket="7"
 				Optimization="2"
 				FavorSizeOrSpeed="2"
+				AdditionalIncludeDirectories="$(WCECOMPAT)/src;$(WCECOMPAT)/include"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;$(PLATFORMDEFINES);WINCE;_LIB;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -538,10 +540,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\redir.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\signal.c"
 				>
 			</File>
@@ -575,14 +573,6 @@
 			</File>
 			<File
 				RelativePath=".\src\utime.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\wce211_ctype.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\wce211_string.c"
 				>
 			</File>
 			<File
@@ -712,11 +702,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\sys\time.h"
+				RelativePath=".\include\time.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\time.h"
+				RelativePath=".\include\sys\time.h"
 				>
 			</File>
 			<File

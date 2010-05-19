@@ -26,6 +26,40 @@
 #include "internal.h"
 #include <sys/timeb.h>
 
+static int handle_to_fd (HANDLE h)
+{
+	if (h == INVALID_HANDLE_VALUE || h == NULL)
+	{
+		return -1;
+	}
+	else
+	{
+		/* We need to make sure that we return a positive
+		 * value for every valid handle, so we can't ever set
+		 * the top bit of the result.  Fortunately, handles
+		 * are in practice aligned, so we can get away with shifting
+		 * the handle by one.
+		 *
+		 * This assumes that:
+		 *   - Handles really *are* aligned,
+		 *   - Arithmetic is two's complement,
+		 *   - and sizeof(HANDLE) <= sizeof(int).
+		 */
+		unsigned u = (unsigned) h;
+		// assert((u & 1) == 0);
+		return (int)(u>>1);
+	}
+}
+
+static HANDLE fd_to_handle (int fd)
+{
+	if (fd < 0)
+		return INVALID_HANDLE_VALUE;
+	else
+		return (HANDLE)(((unsigned)fd)<<1);
+}
+
+
 /* Very limited implementation of stat. Used by UI.C, MEMORY-P.C (latter is not critical) */
 int stat(const char *fname, struct stat *ss)
 {
@@ -71,13 +105,15 @@ int stat(const char *fname, struct stat *ss)
 	return 0;
 }
 
-int fstat(int file, struct stat *sbuf)
+int fstat(int fd, struct stat *sbuf)
 {
 	/* GetFileSize & GetFileTime */
 	DWORD dwSize;
 	FILETIME ctime, atime, mtime;
+    HANDLE h = fd_to_handle(fd);
+    //__debugbreak();
 
-	dwSize = GetFileSize( (HANDLE)file, NULL );
+	dwSize = GetFileSize( h, NULL );
 	if( dwSize == 0xFFFFFFFF )
 		return -1;
 
@@ -87,7 +123,7 @@ int fstat(int file, struct stat *sbuf)
 	sbuf->st_mode = _S_IFREG;
 	sbuf->st_nlink= 1;
 
-	GetFileTime( (HANDLE)file, &ctime, &atime, &mtime );
+	GetFileTime( h, &ctime, &atime, &mtime );
 	sbuf->st_ctime = wce_FILETIME2time_t(&ctime);
 	sbuf->st_atime = wce_FILETIME2time_t(&atime);
 	sbuf->st_mtime = wce_FILETIME2time_t(&mtime);

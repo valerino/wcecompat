@@ -25,6 +25,39 @@
 #include <winsock2.h>
 #include <fcntl.h>
 
+static int handle_to_fd (HANDLE h)
+{
+	if (h == INVALID_HANDLE_VALUE || h == NULL)
+	{
+		return -1;
+	}
+	else
+	{
+		/* We need to make sure that we return a positive
+		 * value for every valid handle, so we can't ever set
+		 * the top bit of the result.  Fortunately, handles
+		 * are in practice aligned, so we can get away with shifting
+		 * the handle by one.
+		 *
+		 * This assumes that:
+		 *   - Handles really *are* aligned,
+		 *   - Arithmetic is two's complement,
+		 *   - and sizeof(HANDLE) <= sizeof(int).
+		 */
+		unsigned u = (unsigned) h;
+		// assert((u & 1) == 0);
+		return (int)(u>>1);
+	}
+}
+
+static HANDLE fd_to_handle (int fd)
+{
+	if (fd < 0)
+		return INVALID_HANDLE_VALUE;
+	else
+		return (HANDLE)(((unsigned)fd)<<1);
+}
+
 int _wcelocking (int _FileHandle, int _LockMode, long _NumOfBytes)
 {
 	/// not supported on WINCE
@@ -54,7 +87,7 @@ int _wceaccess(const char *filename, int flags)
 	WCHAR modewo [4] = L"wb";
 	WCHAR moderw [4] = L"w+";
 	FILE* f = NULL;
-	
+	//__debugbreak();
 	mbstowcs(fname,filename,MAX_PATH);	
 	if (flags == 0 || flags == 4)
 	{
@@ -101,7 +134,8 @@ int _wceopen(const char *file, int mode, ...)
 	DWORD err = 0;
 	HANDLE h;
 	
-	/* arguments after mode are ignored, plus we purge mode from binary/text flags which are useless with createfile */
+	//__debugbreak();
+    /* arguments after mode are ignored, plus we purge mode from binary/text flags which are useless with createfile */
 	mode &= ~O_BINARY;
 	mode &= ~O_TEXT;
 
@@ -173,25 +207,36 @@ int _wceopen(const char *file, int mode, ...)
 				return -1;
 		}	
 	}
-	return (int)h;
+	return handle_to_fd(h);
 }
 
-FILE* _wcefdopen( int handle, const char *mode )
+int wcefileno (FILE* file)
+{
+  HANDLE h = (HANDLE)_fileno (file);
+  //__debugbreak();
+  return handle_to_fd(h);
+}
+
+FILE* _wcefdopen( int fd, const char *mode )
 {
 	WCHAR wmode [32];
 	FILE* fp = NULL;
-
-	mbstowcs(wmode,mode,32);
-	fp = _wfdopen( (void*)handle, wmode );
+    HANDLE h = fd_to_handle(fd);
+	
+    //__debugbreak();
+    mbstowcs(wmode,mode,32);
+	fp = _wfdopen(h, wmode );
 
 	return fp;
 }
 
 int _wceclose (int fd)
 {	
-	if ((HANDLE)fd != INVALID_HANDLE_VALUE)
+	HANDLE h = fd_to_handle(fd);
+    //__debugbreak();
+    if (h != INVALID_HANDLE_VALUE)
 	{
-		if (CloseHandle((HANDLE)fd))
+		if (CloseHandle(h))
 			return 0;
 	}
 	return -1;
@@ -200,21 +245,26 @@ int _wceclose (int fd)
 int _wceread(int fd, void *buffer, int length)
 {
 	DWORD dw = 0;
-	ReadFile( (HANDLE)fd, buffer, length, &dw, NULL );
+    HANDLE h = fd_to_handle(fd);
+	//__debugbreak();
+    ReadFile( h, buffer, length, &dw, NULL );
 	return (int)dw;
 }
 
 int _wcewrite(int fd, const void *buffer, unsigned count)
 {
 	DWORD dw;
-	WriteFile( (HANDLE)fd, buffer, count, &dw, NULL );
+    HANDLE h = fd_to_handle(fd);
+	//__debugbreak();
+    WriteFile( h, buffer, count, &dw, NULL );
 	return (int)dw;
 }
 
-long _wcelseek(int handle, long offset, int origin)
+long _wcelseek(int fd, long offset, int origin)
 {
 	DWORD flag, ret;
-
+    HANDLE h = fd_to_handle(fd);
+    //__debugbreak();
 	switch(origin)
 	{
 		case SEEK_SET: 
@@ -232,7 +282,7 @@ long _wcelseek(int handle, long offset, int origin)
 		break;
 	}
 
-	ret = SetFilePointer( (HANDLE)handle, offset, NULL, flag );
+	ret = SetFilePointer( h, offset, NULL, flag );
 	if (ret == -1)
 	{
 		if (GetLastError () != NO_ERROR)
