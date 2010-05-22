@@ -185,6 +185,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="rd /s /q $(ProjectDir)lib&#x0D;&#x0A;mkdir $(ProjectDir)lib"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -410,13 +411,14 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Windows Mobile 6 Professional SDK (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)lib"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="rd /s /q $(ProjectDir)lib&#x0D;&#x0A;mkdir $(ProjectDir)lib"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -702,11 +704,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\sys\time.h"
+				RelativePath=".\include\time.h"
 				>
 			</File>
 			<File
-				RelativePath=".\include\time.h"
+				RelativePath=".\include\sys\time.h"
 				>
 			</File>
 			<File

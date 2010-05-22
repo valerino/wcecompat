@@ -32,6 +32,8 @@ extern "C" {
 
 char *  __cdecl strerror(int errnum);
 int vasprintf (char **strp, const char *fmt, va_list ap);
+int _vscprintf(const char *format, va_list argptr);
+#define vscprintf _vscprintf
 
 // Widechar string functions
 _CRTIMP wchar_t * __cdecl wcscat(wchar_t *, const wchar_t *);
